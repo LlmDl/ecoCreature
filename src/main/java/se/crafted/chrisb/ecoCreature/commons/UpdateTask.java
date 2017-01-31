@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2012, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -38,30 +38,33 @@ public class UpdateTask implements Runnable
     private static final long CHECK_DELAY = 0;
     private static final long CHECK_PERIOD = 432000;
 
-    private String pluginName;
-    private String pluginVersion;
+    private final String pluginName;
+    private final String pluginVersion;
     private String latestVersion;
+    private BukkitTask task;
+    private final ecoCreature plugin;
 
     public UpdateTask(ecoCreature plugin)
     {
         pluginName = plugin.getName();
         pluginVersion = plugin.getDescription().getVersion().split("-")[0];
         latestVersion = pluginVersion;
+        this.plugin = plugin;
+    }
 
-        BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this, CHECK_DELAY, CHECK_PERIOD);
+    public void start()
+    {
+        task = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this, CHECK_DELAY, CHECK_PERIOD);
         if (task.getTaskId() < 0) {
             LoggerUtil.getInstance().warning("Failed to schedule UpdateTask task.");
         }
     }
 
-    public void setPluginName(String pluginName)
+    public void stop()
     {
-        this.pluginName = pluginName;
-    }
-
-    public String getPluginName()
-    {
-        return pluginName;
+        if (task != null && task.getTaskId() > 0) {
+            task.cancel();
+        }
     }
 
     private void getLatestVersion()

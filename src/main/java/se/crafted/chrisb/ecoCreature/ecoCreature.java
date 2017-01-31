@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2012, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -19,58 +19,58 @@
  */
 package se.crafted.chrisb.ecoCreature;
 
+import java.io.IOException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import se.crafted.chrisb.ecoCreature.commands.BonusCommand;
+import se.crafted.chrisb.ecoCreature.commands.SetBonusCommand;
 import se.crafted.chrisb.ecoCreature.commands.CommandHandler;
 import se.crafted.chrisb.ecoCreature.commands.DebugCommand;
 import se.crafted.chrisb.ecoCreature.commands.HelpCommand;
 import se.crafted.chrisb.ecoCreature.commands.ReloadCommand;
-import se.crafted.chrisb.ecoCreature.commons.DependencyUtils;
-import se.crafted.chrisb.ecoCreature.commons.UpdateTask;
+import se.crafted.chrisb.ecoCreature.commons.PluginUtils;
 import se.crafted.chrisb.ecoCreature.commons.LoggerUtil;
-import se.crafted.chrisb.ecoCreature.events.handlers.BlockEventHandler;
-import se.crafted.chrisb.ecoCreature.events.handlers.DeathStreakEventHandler;
-import se.crafted.chrisb.ecoCreature.events.handlers.EntityKilledEventHandler;
-import se.crafted.chrisb.ecoCreature.events.handlers.PluginEventHandler;
-import se.crafted.chrisb.ecoCreature.events.handlers.EntityFarmedEventHandler;
-import se.crafted.chrisb.ecoCreature.events.handlers.HeroesEventHandler;
-import se.crafted.chrisb.ecoCreature.events.handlers.McMMOEventHandler;
-import se.crafted.chrisb.ecoCreature.events.handlers.PlayerDeathEventHandler;
-import se.crafted.chrisb.ecoCreature.events.handlers.KillStreakEventHandler;
-import se.crafted.chrisb.ecoCreature.events.handlers.PlayerKilledEventHandler;
+import se.crafted.chrisb.ecoCreature.commons.UpdateTask;
 import se.crafted.chrisb.ecoCreature.events.listeners.BlockEventListener;
+import se.crafted.chrisb.ecoCreature.events.listeners.DropEventListener;
 import se.crafted.chrisb.ecoCreature.events.listeners.EntityDeathEventListener;
+import se.crafted.chrisb.ecoCreature.events.listeners.HeroesEventListener;
 import se.crafted.chrisb.ecoCreature.events.listeners.McMMOEventListener;
 import se.crafted.chrisb.ecoCreature.events.listeners.PlayerDeathEventListener;
-import se.crafted.chrisb.ecoCreature.events.listeners.HeroesEventListener;
-import se.crafted.chrisb.ecoCreature.events.listeners.RewardEventListener;
 import se.crafted.chrisb.ecoCreature.events.listeners.SpawnEventListener;
 import se.crafted.chrisb.ecoCreature.events.listeners.StreakEventListener;
-import se.crafted.chrisb.ecoCreature.metrics.RewardMetrics;
+import se.crafted.chrisb.ecoCreature.events.mappers.DropEventFactory;
+import se.crafted.chrisb.ecoCreature.metrics.DropMetrics;
 
 public class ecoCreature extends JavaPlugin
 {
-    private RewardMetrics metrics;
-    private PluginConfig pluginConfig;
+    private DropMetrics metrics;
+    private DropConfigLoader dropConfigLoader;
+    private DropEventFactory dropEventFactory;
+    private UpdateTask updateTask;
     private CommandHandler commandHandler;
 
     @Override
     public void onEnable()
     {
-        DependencyUtils.init();
+        PluginUtils.init();
 
-        metrics = new RewardMetrics(this);
-        pluginConfig = new PluginConfig(this);
+        metrics = new DropMetrics(this);
+        dropConfigLoader = new DropConfigLoader(this);
+        dropEventFactory = new DropEventFactory(dropConfigLoader);
+        updateTask = new UpdateTask(this);
 
-        if (pluginConfig.isInitialized()) {
+        if (dropConfigLoader.isInitialized()) {
             addCommands();
             registerEvents();
 
-            if (pluginConfig.isCheckForUpdates()) {
-                new UpdateTask(this);
+            if (dropConfigLoader.isCheckForUpdates()) {
+                updateTask.start();
             }
 
             LoggerUtil.getInstance().info(getDescription().getVersion() + " enabled.");
@@ -96,62 +96,66 @@ public class ecoCreature extends JavaPlugin
     public void reloadConfig()
     {
         super.reloadConfig();
-        pluginConfig = new PluginConfig(this);
-    };
-
-    public RewardMetrics getMetrics()
-    {
-        return metrics;
+        dropConfigLoader = new DropConfigLoader(this);
+        dropEventFactory = new DropEventFactory(dropConfigLoader);
+        restartUpdateTask();
     }
 
-    public PluginConfig getPluginConfig()
+    public void loadConfig(String file, String world) throws IOException, InvalidConfigurationException
     {
-        return pluginConfig;
+        dropConfigLoader.loadConfig(file, world);
+        dropEventFactory = new DropEventFactory(dropConfigLoader);
+        restartUpdateTask();
     }
 
-    public CommandHandler getCommandHandler()
+    private void restartUpdateTask()
     {
-        return commandHandler;
+        updateTask.stop();
+    
+        if (dropConfigLoader.isInitialized() && dropConfigLoader.isCheckForUpdates()) {
+            updateTask.start();
+        }
     }
 
     private void addCommands()
     {
         commandHandler = new CommandHandler();
-        commandHandler.addCommand(new HelpCommand(this));
+        commandHandler.addCommand(new HelpCommand(commandHandler));
         commandHandler.addCommand(new ReloadCommand(this));
+        commandHandler.addCommand(new BonusCommand());
+        commandHandler.addCommand(new SetBonusCommand());
         commandHandler.addCommand(new DebugCommand());
     }
 
     private void registerEvents()
     {
-        Bukkit.getPluginManager().registerEvents(new RewardEventListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new DropEventListener(metrics), this);
         Bukkit.getPluginManager().registerEvents(new SpawnEventListener(this), this);
 
-        PluginEventHandler eventHandler = new PluginEventHandler();
-        eventHandler.add(new BlockEventHandler(this));
-        eventHandler.add(new PlayerKilledEventHandler(this));
-        eventHandler.add(new PlayerDeathEventHandler(this));
-        eventHandler.add(new EntityKilledEventHandler(this));
-        eventHandler.add(new EntityFarmedEventHandler(this));
+        Bukkit.getPluginManager().registerEvents(new BlockEventListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerDeathEventListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new EntityDeathEventListener(this), this);
 
-        Bukkit.getPluginManager().registerEvents(new BlockEventListener(eventHandler), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerDeathEventListener(eventHandler), this);
-        Bukkit.getPluginManager().registerEvents(new EntityDeathEventListener(eventHandler), this);
-
-        if (DependencyUtils.hasDeathTpPlus()) {
-            eventHandler.add(new KillStreakEventHandler(this));
-            eventHandler.add(new DeathStreakEventHandler(this));
-            Bukkit.getPluginManager().registerEvents(new StreakEventListener(eventHandler), this);
+        if (PluginUtils.hasDeathTpPlus()) {
+            Bukkit.getPluginManager().registerEvents(new StreakEventListener(this), this);
         }
 
-        if (DependencyUtils.hasHeroes()) {
-            eventHandler.add(new HeroesEventHandler(this));
-            Bukkit.getPluginManager().registerEvents(new HeroesEventListener(eventHandler), this);
+        if (PluginUtils.hasHeroes()) {
+            Bukkit.getPluginManager().registerEvents(new HeroesEventListener(this), this);
         }
 
-        if (DependencyUtils.hasMcMMO()) {
-            eventHandler.add(new McMMOEventHandler(this));
-            Bukkit.getPluginManager().registerEvents(new McMMOEventListener(eventHandler), this);
+        if (PluginUtils.hasMcMMO()) {
+            Bukkit.getPluginManager().registerEvents(new McMMOEventListener(this), this);
         }
+    }
+
+    public DropConfigLoader getDropConfigLoader()
+    {
+        return dropConfigLoader;
+    }
+
+    public DropEventFactory getDropEventFactory()
+    {
+        return dropEventFactory;
     }
 }

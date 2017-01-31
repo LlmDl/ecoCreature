@@ -17,7 +17,7 @@ import java.util.Map;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import se.crafted.chrisb.ecoCreature.commons.DependencyUtils;
+import se.crafted.chrisb.ecoCreature.commons.PluginUtils;
 
 public class CommandHandler
 {
@@ -26,7 +26,7 @@ public class CommandHandler
 
     public CommandHandler()
     {
-        commands = new LinkedHashMap<String, Command>();
+        commands = new LinkedHashMap<>();
     }
 
     public void addCommand(Command command)
@@ -46,7 +46,7 @@ public class CommandHandler
 
     public List<Command> getCommands()
     {
-        return new ArrayList<Command>(commands.values());
+        return new ArrayList<>(commands.values());
     }
 
     public boolean dispatch(CommandSender sender, org.bukkit.command.Command command, String label, String[] args)
@@ -70,7 +70,7 @@ public class CommandHandler
                 if (cmd.isIdentifier(sender, identifier)) {
                     String[] realArgs = Arrays.copyOfRange(arguments, argsIncluded, arguments.length);
 
-                    if (!cmd.isInProgress(sender)) {
+                    if (cmd.isNotInProgress(sender)) {
                         if (realArgs.length < cmd.getMinArguments() || realArgs.length > cmd.getMaxArguments()) {
                             displayCommandHelp(cmd, sender);
                             return true;
@@ -114,8 +114,8 @@ public class CommandHandler
         }
 
         Player player = (Player) sender;
-        if (DependencyUtils.hasPermission()) {
-            return DependencyUtils.getPermission().has(player, permString);
+        if (PluginUtils.hasPermission()) {
+            return PluginUtils.getPermission().has(player, permString);
         }
         return player.hasPermission(permString);
     }

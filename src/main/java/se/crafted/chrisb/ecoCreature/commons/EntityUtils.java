@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2012, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
 import org.bukkit.metadata.MetadataValue;
 
-import se.crafted.chrisb.ecoCreature.settings.WorldSettings;
+import se.crafted.chrisb.ecoCreature.drops.sources.DropConfig;
 
 public final class EntityUtils
 {
@@ -40,7 +40,7 @@ public final class EntityUtils
     {
         Location loc = entity.getLocation();
         int r = radius * radius;
-        List<MetadataValue> metaDataValues = entity.getMetadata(WorldSettings.SPAWNERLOC_TAG_MDID);
+        List<MetadataValue> metaDataValues = entity.getMetadata(DropConfig.SPAWNERLOC_TAG_MDID);
 
         if (!metaDataValues.isEmpty()) {
             MetadataValue metaDataValue = metaDataValues.get(0);
@@ -58,7 +58,7 @@ public final class EntityUtils
 
     public static boolean isUnderSeaLevel(Entity entity)
     {
-        return entity != null && (entity.getLocation().getBlockY() < entity.getWorld().getSeaLevel());
+        return entity != null && entity.getLocation().getBlockY() < entity.getWorld().getSeaLevel();
     }
 
     public static boolean isOwner(Player player, Entity entity)

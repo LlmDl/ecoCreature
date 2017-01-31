@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2012, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -30,14 +30,14 @@ import org.bukkit.inventory.ItemStack;
 
 import se.crafted.chrisb.ecoCreature.commons.EntityUtils;
 import se.crafted.chrisb.ecoCreature.commons.EventUtils;
-import se.crafted.chrisb.ecoCreature.settings.SpawnerMobTracking;
+import se.crafted.chrisb.ecoCreature.drops.SpawnerMobTag;
 
 public final class EntityKilledEvent extends Event
 {
-    private static final HandlerList handlers = new HandlerList();
+    private static final HandlerList HANDLERS = new HandlerList();
 
-    private EntityDeathEvent event;
-    private SpawnerMobTracking spawnerMobTracking;
+    private final EntityDeathEvent event;
+    private SpawnerMobTag spawnerMobTracker;
 
     public static EntityKilledEvent createEvent(EntityDeathEvent event)
     {
@@ -74,14 +74,14 @@ public final class EntityKilledEvent extends Event
         return EventUtils.isProjectileKill(event);
     }
 
-    public SpawnerMobTracking getSpawnerMobTracking()
+    public SpawnerMobTag getSpawnerMobTracker()
     {
-        return spawnerMobTracking;
+        return spawnerMobTracker;
     }
 
-    public void setSpawnerMobTracking(SpawnerMobTracking spawnerMobTracking)
+    public void setSpawnerMobTracker(SpawnerMobTag spawnerMobTracker)
     {
-        this.spawnerMobTracking = spawnerMobTracking;
+        this.spawnerMobTracker = spawnerMobTracker;
     }
 
     public LivingEntity getEntity()
@@ -94,14 +94,14 @@ public final class EntityKilledEvent extends Event
         return event.getDrops();
     }
 
-    public void setDroppedExp(int exp)
+    public void resetDroppedExp()
     {
-        event.setDroppedExp(exp);
+        event.setDroppedExp(0);
     }
 
     @Override
     public HandlerList getHandlers()
     {
-        return handlers;
+        return HANDLERS;
     }
 }

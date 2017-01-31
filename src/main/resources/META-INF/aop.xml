@@ -1,0 +1,8 @@
+<aspectj>
+  <aspects>
+    <aspect name="se.crafted.chrisb.ecoCreature.drops.aspects.BonusMultiplierAspect" />
+  </aspects>
+  <weaver>
+    <include within="se.crafted.chrisb.ecoCreature.drops.chances..*" />
+  </weaver>
+</aspectj>

@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2012, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -40,7 +40,7 @@ public class SpawnEventListener implements Listener
     public void onCreatureSpawn(CreatureSpawnEvent event)
     {
         if (!event.isCancelled() && event.getSpawnReason() == SpawnReason.SPAWNER) {
-            plugin.getPluginConfig().getWorldSettings(event.getEntity().getWorld()).addSpawnerMob(event);
+            plugin.getDropConfigLoader().getDropConfig(event.getEntity().getWorld()).tagSpawnerMob(event);
         }
     }
 }

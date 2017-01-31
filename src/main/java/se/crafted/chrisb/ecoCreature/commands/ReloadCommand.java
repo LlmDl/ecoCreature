@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2012, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -19,7 +19,13 @@
  */
 package se.crafted.chrisb.ecoCreature.commands;
 
+import java.io.IOException;
+
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.entity.Player;
 
 import se.crafted.chrisb.ecoCreature.ecoCreature;
 
@@ -32,8 +38,8 @@ public class ReloadCommand extends BasicCommand
         super("Reload");
         this.plugin = plugin;
         setDescription("Reload configuration");
-        setUsage("/ecoc reload");
-        setArgumentRange(0, 0);
+        setUsage("/ecoc reload [config] <world>");
+        setArgumentRange(0, 2);
         setIdentifiers("reload");
         setPermission("ecocreature.command.reload");
     }
@@ -41,8 +47,39 @@ public class ReloadCommand extends BasicCommand
     @Override
     public boolean execute(CommandSender sender, String identifier, String[] args)
     {
-        plugin.reloadConfig();
-        sender.sendMessage("ecoCreature config reloaded.");
+        if (args != null) {
+            try {
+                switch (args.length) {
+                    case 0:
+                        plugin.reloadConfig();
+                        sender.sendMessage("config reloaded.");
+                        break;
+                    case 1:
+                        if (sender instanceof Player) {
+                            Player player = (Player) sender;
+                            plugin.loadConfig(args[0], player.getWorld().getName());
+                        }
+                        else {
+                            sender.sendMessage("you must specify a world");
+                        }
+                        break;
+                    case 2:
+                        World world = Bukkit.getWorld(args[1]);
+                        if (world != null) {
+                            plugin.loadConfig(args[0], world.getName());
+                        }
+                        else {
+                            sender.sendMessage("that world doesn't exist");
+                        }
+                        break;
+                    default:
+                        sender.sendMessage(getUsage());
+                }
+            }
+            catch (InvalidConfigurationException|IOException e) {
+                sender.sendMessage("failed to load config");
+            }
+        }
         return true;
     }
 }

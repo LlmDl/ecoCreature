@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2012, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@ public enum TimePeriod
 {
     DAY, SUNSET, DUSK, NIGHT, DAWN, SUNRISE, NONE;
 
-    private static final Map<LongRange, TimePeriod> PERIOD_MAP = new HashMap<LongRange, TimePeriod>();
+    private static final Map<LongRange, TimePeriod> PERIOD_MAP = new HashMap<>();
 
     private static final long DAY_START = 0;
     private static final long SUNSET_START = 13000;
@@ -63,9 +63,9 @@ public enum TimePeriod
     {
         TimePeriod timePeriod = NONE;
 
-        for (LongRange period : PERIOD_MAP.keySet()) {
-            if (period.containsLong(time)) {
-                timePeriod = PERIOD_MAP.get(period);
+        for (Map.Entry<LongRange, TimePeriod> entry : PERIOD_MAP.entrySet()) {
+            if (entry.getKey().containsLong(time)) {
+                timePeriod = entry.getValue();
                 break;
             }
         }
