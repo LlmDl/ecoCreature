@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2012, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@ public interface Command {
 
     boolean isIdentifier(CommandSender executor, String input);
 
-    boolean isInProgress(CommandSender executor);
+    boolean isNotInProgress(CommandSender executor);
 
     boolean isInteractive();
 

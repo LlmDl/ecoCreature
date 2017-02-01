@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2012, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -24,17 +24,15 @@ import java.util.List;
 
 import org.bukkit.command.CommandSender;
 
-import se.crafted.chrisb.ecoCreature.ecoCreature;
-
 public class HelpCommand extends BasicCommand
 {
     private static final int CMDS_PER_PAGE = 8;
     private CommandHandler commandHandler;
 
-    public HelpCommand(ecoCreature plugin)
+    public HelpCommand(CommandHandler commandHandler)
     {
         super("Help");
-        this.commandHandler = plugin.getCommandHandler();
+        this.commandHandler = commandHandler;
         setDescription("Displays the help menu");
         setUsage("/ecoc help §8[page#]");
         setArgumentRange(0, 1);
@@ -49,7 +47,7 @@ public class HelpCommand extends BasicCommand
             try {
                 page = Integer.parseInt(args[0]) - 1;
             }
-            catch (NumberFormatException e) {
+            catch (NumberFormatException ignored) {
             }
         }
 
@@ -82,7 +80,7 @@ public class HelpCommand extends BasicCommand
 
     private List<Command> getCommandsForSender(CommandSender sender)
     {
-        List<Command> commands = new ArrayList<Command>();
+        List<Command> commands = new ArrayList<>();
 
         // Build list of permitted commands
         for (Command command : commandHandler.getCommands()) {

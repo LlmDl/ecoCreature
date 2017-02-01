@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2012, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -24,55 +24,47 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
+
 public class DefaultMessage implements Message
 {
-    private static final String DEFAULT_TEMPLATE = "";
+    private static final String EMPTY_MESSAGE_TEMPLATE = "";
 
-    private boolean messageOutputEnabled;
+    public static final DefaultMessage EMPTY_MESSAGE = new DefaultMessage(EMPTY_MESSAGE_TEMPLATE);
 
-    private String template;
+    private boolean enabled;
 
-    public DefaultMessage()
+    private final String template;
+
+    public DefaultMessage(String template, boolean enabled)
     {
-        this(DEFAULT_TEMPLATE);
+        this.template = convertTemplate(template);
+        this.enabled = enabled;
     }
 
     public DefaultMessage(String template)
     {
-        this.template = convertMessage(template);
-        messageOutputEnabled = true;
+        this(convertTemplate(template), true);
     }
 
     @Override
-    public boolean isMessageOutputEnabled()
+    public boolean isEnabled()
     {
-        return messageOutputEnabled;
+        return enabled;
     }
 
     @Override
-    public void setMessageOutputEnabled(boolean messageOutputEnabled)
+    public void setEnabled(boolean enabled)
     {
-        this.messageOutputEnabled = messageOutputEnabled;
+        this.enabled = enabled;
     }
 
     @Override
-    public String getTemplate()
-    {
-        return template;
-    }
-
-    @Override
-    public void setTemplate(String template)
-    {
-        this.template = template;
-    }
-
-    @Override
-    public String getAssembledMessage(Map<MessageToken, String> parameters)
+    public String assembleMessage(Map<MessageToken, String> parameters)
     {
         String assembledMessage = template;
 
-        if (assembledMessage != null && assembledMessage.length() > 0) {
+        if (StringUtils.isNotEmpty(assembledMessage)) {
             for (Entry<MessageToken, String> entry : parameters.entrySet()) {
                 if (entry.getKey() == MessageToken.AMOUNT) {
                     assembledMessage = assembledMessage.replaceAll(entry.getKey().toString(), entry.getValue().replaceAll("\\$", "\\\\\\$"));
@@ -118,22 +110,22 @@ public class DefaultMessage implements Message
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
     }
 
-    public static String convertMessage(String message)
+    public static String convertTemplate(String template)
     {
-        if (message != null) {
-            return message.replaceAll("&&", "\b").replaceAll("&", "§").replaceAll("\b", "&");
+        if (template != null) {
+            return template.replaceAll("&&", "\b").replaceAll("&", "§").replaceAll("\b", "&");
         }
 
         return null;
     }
 
-    public static List<String> convertMessages(List<String> messages) {
-        List<String> convertedMessages = new ArrayList<String>();
+    public static List<String> convertTemplates(List<String> templates) {
+        List<String> convertedTemplates = new ArrayList<>();
 
-        for (String message : messages) {
-            convertedMessages.add(convertMessage(message));
+        for (String template : templates) {
+            convertedTemplates.add(convertTemplate(template));
         }
 
-        return convertedMessages;
+        return convertedTemplates;
     }
 }

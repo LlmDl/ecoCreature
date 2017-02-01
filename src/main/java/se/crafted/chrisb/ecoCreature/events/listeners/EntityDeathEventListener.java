@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2012, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -19,8 +19,8 @@
  */
 package se.crafted.chrisb.ecoCreature.events.listeners;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -29,19 +29,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
+import se.crafted.chrisb.ecoCreature.ecoCreature;
 import se.crafted.chrisb.ecoCreature.commons.EventUtils;
+import se.crafted.chrisb.ecoCreature.events.DropEvent;
 import se.crafted.chrisb.ecoCreature.events.EntityFarmedEvent;
 import se.crafted.chrisb.ecoCreature.events.EntityKilledEvent;
-import se.crafted.chrisb.ecoCreature.events.RewardEvent;
-import se.crafted.chrisb.ecoCreature.events.handlers.PluginEventHandler;
 
 public class EntityDeathEventListener implements Listener
 {
-    private final PluginEventHandler handler;
+    private final ecoCreature plugin;
 
-    public EntityDeathEventListener(PluginEventHandler handler)
+    public EntityDeathEventListener(ecoCreature plugin)
     {
-        this.handler = handler;
+        this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -51,17 +51,17 @@ public class EntityDeathEventListener implements Listener
             return;
         }
 
-        Set<RewardEvent> events = Collections.emptySet();
+        Collection<DropEvent> events = Collections.emptyList();
 
         if (EventUtils.isEntityKilledEvent(event)) {
-            events = handler.createRewardEvents(EntityKilledEvent.createEvent(event));
+            events = plugin.getDropEventFactory().collectDropEvents(EntityKilledEvent.createEvent(event));
         }
         else if (EventUtils.isEntityFarmed(event) || EventUtils.isEntityFireFarmed(event)) {
-            events = handler.createRewardEvents(EntityFarmedEvent.createEvent(event));
+            events = plugin.getDropEventFactory().collectDropEvents(EntityFarmedEvent.createEvent(event));
         }
 
-        for (RewardEvent rewardEvent : events) {
-            Bukkit.getPluginManager().callEvent(rewardEvent);
+        for (DropEvent dropEvent : events) {
+            Bukkit.getPluginManager().callEvent(dropEvent);
         }
     }
 }

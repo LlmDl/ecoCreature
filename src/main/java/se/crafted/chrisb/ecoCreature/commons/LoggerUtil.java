@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2012, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -24,9 +24,9 @@ import java.util.logging.Logger;
 public final class LoggerUtil
 {
     private static final String LOG_NAME = "ecoCreature";
-    private static LoggerUtil instance = new LoggerUtil();
+    private static final LoggerUtil instance = new LoggerUtil();
 
-    private Logger logger;
+    private final Logger logger;
     private String name;
     private boolean debug;
 

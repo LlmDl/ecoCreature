@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2012, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -127,9 +127,24 @@ public final class EventUtils
         return event != null && event.getEntity().getKiller() != null;
     }
 
-    public static boolean isSuicide(PlayerDeathEvent event)
+    public static boolean isNotSuicide(PlayerDeathEvent event)
     {
-        return event != null && event.getEntity().getLastDamageCause() == null;
+        boolean isNotSuicide = true;
+
+        if (event != null && event.getEntity().getLastDamageCause() != null && event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
+
+            Entity damager = ((EntityDamageByEntityEvent) event.getEntity().getLastDamageCause()).getDamager();
+
+            if (damager instanceof Projectile) {
+                Projectile projectile = (Projectile) damager;
+                if (projectile.getShooter() instanceof Player) {
+                    Player shooter = (Player) projectile.getShooter();
+                    isNotSuicide = !event.getEntity().getUniqueId().equals(shooter.getUniqueId());
+                }
+            }
+        }
+
+        return isNotSuicide;
     }
 
     public static boolean isProjectileKill(EntityDeathEvent event)

@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2012, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -28,12 +28,13 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import se.crafted.chrisb.ecoCreature.commons.EntityUtils;
+import se.crafted.chrisb.ecoCreature.commons.EventUtils;
 
 public final class PlayerKilledEvent extends Event
 {
-    private static final HandlerList handlers = new HandlerList();
+    private static final HandlerList HANDLERS = new HandlerList();
 
-    private PlayerDeathEvent event;
+    private final PlayerDeathEvent event;
 
     public static PlayerKilledEvent createEvent(PlayerDeathEvent event)
     {
@@ -43,6 +44,11 @@ public final class PlayerKilledEvent extends Event
     private PlayerKilledEvent(PlayerDeathEvent event)
     {
         this.event = event;
+    }
+
+    public boolean isSuicide()
+    {
+        return !EventUtils.isNotSuicide(event);
     }
 
     public Player getVictim()
@@ -75,9 +81,9 @@ public final class PlayerKilledEvent extends Event
         return event.getDroppedExp();
     }
 
-    public void setDroppedExp(int exp)
+    public void resetDroppedExp()
     {
-        event.setDroppedExp(exp);
+        event.setDroppedExp(0);
     }
 
     public int getNewExp()
@@ -103,6 +109,6 @@ public final class PlayerKilledEvent extends Event
     @Override
     public HandlerList getHandlers()
     {
-        return handlers;
+        return HANDLERS;
     }
 }

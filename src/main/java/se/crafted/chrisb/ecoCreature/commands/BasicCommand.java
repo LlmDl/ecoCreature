@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2012, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -41,8 +41,8 @@ public abstract class BasicCommand implements Command {
         description = "";
         usage = "";
         permission = "";
-        notes = new ArrayList<String>();
-        identifiers = new ArrayList<String>();
+        notes = new ArrayList<>();
+        identifiers = new ArrayList<>();
         minArguments = 0;
         maxArguments = 0;
     }
@@ -101,8 +101,8 @@ public abstract class BasicCommand implements Command {
     }
 
     @Override
-    public boolean isInProgress(CommandSender executor) {
-        return false;
+    public boolean isNotInProgress(CommandSender executor) {
+        return true;
     }
 
     @Override

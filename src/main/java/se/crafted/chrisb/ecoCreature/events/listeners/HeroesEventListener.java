@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2012, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -24,25 +24,25 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import com.herocraftonline.heroes.api.events.HeroChangeLevelEvent;
+import se.crafted.chrisb.ecoCreature.ecoCreature;
+import se.crafted.chrisb.ecoCreature.events.DropEvent;
 
-import se.crafted.chrisb.ecoCreature.events.RewardEvent;
-import se.crafted.chrisb.ecoCreature.events.handlers.PluginEventHandler;
+import com.herocraftonline.heroes.api.events.HeroChangeLevelEvent;
 
 public class HeroesEventListener implements Listener
 {
-    private final PluginEventHandler handler;
+    private final ecoCreature plugin;
 
-    public HeroesEventListener(PluginEventHandler handler)
+    public HeroesEventListener(ecoCreature plugin)
     {
-        this.handler = handler;
+        this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onHeroChangeLevel(HeroChangeLevelEvent event)
     {
-        for (RewardEvent rewardEvent : handler.createRewardEvents(event)) {
-            Bukkit.getPluginManager().callEvent(rewardEvent);
+        for (DropEvent dropEvent : plugin.getDropEventFactory().collectDropEvents(event)) {
+            Bukkit.getPluginManager().callEvent(dropEvent);
         }
     }
 }
