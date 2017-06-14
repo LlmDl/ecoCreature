@@ -483,6 +483,13 @@ RewardTable:
     Coin_Minimum: 1.00
     Coin_Maximum: 3.50
     Coin_Percent: 50.0
+  Evoker:
+    Drops:
+    - 'totem of undying:1:100'
+    - 'emerald:1:50'
+    Coin_Minimum: 1.00
+    Coin_Maximum: 3.50
+    Coin_Percent: 50.0
   Ghast:
     Drops:
     - 'sulphur:2:100'
@@ -517,6 +524,17 @@ RewardTable:
     Coin_Minimum: 0.10
     Coin_Maximum: 2.50
     Coin_Percent: 1.0
+  Husk:
+    Coin_Minimum: 1.00
+    Coin_Maximum: 3.50
+    Coin_Percent: 50.0
+    Drops:
+    - 'rotten flesh:2:100'
+  Illusioner:
+    Coin_Minimum: 1.00
+    Coin_Maximum: 3.50
+    Coin_Percent: 50.0
+    Drops: []    
   #
   # DeathTpPlus plugin is required to use this reward.
   # The reward amount is multiplied by the number of kills in the streak.
@@ -535,6 +553,12 @@ RewardTable:
     Coin_Percent: 50.0
     Drops:
     - 'magma cream:1:100'
+  Llama:
+    Coin_Minimum: 0.00
+    Coin_Maximum: 2.00
+    Coin_Percent: 50.0
+    Drops:
+    - 'leather:0-2:100'
   #
   # mcMMO plugin is required to use this reward
   mcMMOLeveled:
@@ -556,6 +580,12 @@ RewardTable:
   Ozelot:
     Coin_Minimum: 1.00
     Coin_Maximum: 2.00
+    Coin_Percent: 1.0
+  Parrot:
+    Drops:
+    - 'feather:1-2:100'
+    Coin_Minimum: 0.10
+    Coin_Maximum: 2.50
     Coin_Percent: 1.0
   Pig:
     Drops:
@@ -590,6 +620,13 @@ RewardTable:
           Classes: ['LOSTSOUL']
       SimpleClans:
         ClearNonRivalDrops: true
+  PolarBear:
+    Drops:
+    - 'raw salmon:0-2:25'
+    - 'raw fish:0-2:75'
+    Coin_Minimum: 0.10
+    Coin_Maximum: 2.50
+    Coin_Percent: 1.0
   Rabbit:
     Drops:
     - 'rabbit hide:1:100'
@@ -610,6 +647,12 @@ RewardTable:
     Coin_Minimum: 0.10
     Coin_Maximum: 2.50
     Coin_Percent: 1.0
+  Shulker:
+    Drops:
+    - 'shulker shell:1:50'
+    Coin_Minimum: 1.00
+    Coin_Maximum: 2.50
+    Coin_Percent: 100.0
   Silverfish:
     Coin_Minimum: 0.50
     Coin_Maximum: 0.50
@@ -653,6 +696,13 @@ RewardTable:
     Coin_Minimum: 0.10
     Coin_Maximum: 2.50
     Coin_Percent: 1.0
+  Stray:
+    Drops:
+    - 'bone:2:100'
+    - 'arrow:2:100'
+    Coin_Minimum: 0.50
+    Coin_Maximum: 1.50
+    Coin_Percent: 50.0
   Witch:
     Coin_Minimum: 3.50
     Coin_Maximum: 3.50
@@ -686,6 +736,10 @@ RewardTable:
     Coin_Minimum: 1.00
     Coin_Maximum: 2.00
     Coin_Percent: 50.0
+  Vex:
+    Coin_Minimum: 1.00
+    Coin_Maximum: 2.00
+    Coin_Percent: 50.0
   Villager:
     Coin_Minimum: 1.00
     Coin_Maximum: 2.00
@@ -694,6 +748,12 @@ RewardTable:
     Drops:
     - 'iron ingot:3-5:100'
     - 'red rose:2:100'
+    Coin_Minimum: 1.00
+    Coin_Maximum: 3.50
+    Coin_Percent: 1.0
+  Vindicator:
+    Drops:
+    - 'emerald:0-1:100'
     Coin_Minimum: 1.00
     Coin_Maximum: 3.50
     Coin_Percent: 1.0

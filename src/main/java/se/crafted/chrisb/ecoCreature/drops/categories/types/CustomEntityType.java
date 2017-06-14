@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2017, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -27,9 +27,12 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Evoker;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.PolarBear;
 import org.bukkit.entity.Rabbit;
+import org.bukkit.entity.Vindicator;
 import org.bukkit.entity.Rabbit.Type;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Skeleton.SkeletonType;
@@ -39,10 +42,13 @@ import org.bukkit.entity.Zombie;
 public enum CustomEntityType
 {
     ANGRY_WOLF("AngryWolf", EntityType.WOLF),
+    EVOKER("Evoker", EntityType.EVOKER),
     KILLER_RABBIT("KillerRabbit", EntityType.RABBIT),
     PLAYER("Player", EntityType.PLAYER),
+    POLAR_BEAR("PolarBear", EntityType.POLAR_BEAR),    
     POWERED_CREEPER("PoweredCreeper", EntityType.CREEPER),
     WITHER_SKELETON("WitherSkeleton", EntityType.WITHER),
+    VINDICATOR("Vindicator", EntityType.VINDICATOR),
     ZOMBIE_VILLAGER("ZombieVillager", EntityType.ZOMBIE),
     ZOMBIE_BABY("ZombieBaby", EntityType.ZOMBIE),
     INVALID("__Invalid__", null);
@@ -107,6 +113,15 @@ public enum CustomEntityType
         }
         else if (entity instanceof Zombie && ((Zombie) entity).isBaby()) {
             entityType = CustomEntityType.ZOMBIE_BABY;
+        }
+        else if (entity instanceof Evoker) {
+        	entityType = CustomEntityType.EVOKER;
+        }
+        else if (entity instanceof PolarBear) {
+        	entityType = CustomEntityType.POLAR_BEAR;
+        }
+        else if (entity instanceof Vindicator) {
+        	entityType = CustomEntityType.VINDICATOR;
         }
         else if (entity instanceof LivingEntity) {
             entityType = CustomEntityType.fromName(entity.getType().getName());

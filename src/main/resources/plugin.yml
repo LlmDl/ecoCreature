@@ -59,33 +59,43 @@ permissions:
       ecocreature.reward.enderman: true
       ecocreature.reward.endermite: true
       ecocreature.reward.entityhorse: true
+      ecocreature.reward.evoker: true
       ecocreature.reward.ghast: true
       ecocreature.reward.giant: true
       ecocreature.reward.guardian: true
       ecocreature.reward.heroleveled: true
       ecocreature.reward.heromastered: true
+      ecocreature.reward.husk: true
+      ecocreature.reward.illusioner: true
       ecocreature.reward.killstreak: true
+      ecocreature.reward.llama: true
       ecocreature.reward.magmacube: true
       ecocreature.reward.mcmmoleveled: true
       ecocreature.reward.monster: true
       ecocreature.reward.mushroomcow: true
       ecocreature.reward.ozelot: true
+      ecocreature.reward.parrot: true
       ecocreature.reward.pig: true
       ecocreature.reward.pigzombie: true
       ecocreature.reward.player: true
+      ecocreature.reward.polarbear: true
       ecocreature.reward.poweredcreeper: true
       ecocreature.reward.rabbit: true
       ecocreature.reward.killerrabbit: true
       ecocreature.reward.sheep: true
+      ecocreature.reward.shulker: true
       ecocreature.reward.silverfish: true
       ecocreature.reward.skeleton: true
       ecocreature.reward.slime: true
+      ecocreature.reward.stray: true
       ecocreature.reward.snowman: true
       ecocreature.reward.spawner: true
       ecocreature.reward.spider: true
       ecocreature.reward.squid: true
+      ecocreature.reward.vex: true
       ecocreature.reward.villager: true
       ecocreature.reward.villagergolem: true
+      ecocreature.reward.vindicator: true
       ecocreature.reward.witch: true
       ecocreature.reward.wither: true
       ecocreature.reward.witherskeleton: true
@@ -186,6 +196,9 @@ permissions:
   ecocreature.reward.entityhorse:
     description: Enables rewards for horses
     default: op
+  ecocreature.reward.evoker:
+    description: Enables rewards for evokers
+    default: op
   ecocreature.reward.ghast:
     description: Enables rewards for ghasts
     default: op
@@ -201,9 +214,18 @@ permissions:
   ecocreature.reward.heromastered:
     description: Enables rewards for mastering a class in Heroes
     default: op
+  ecocreature.reward.husk:
+    description: Enables rewards for husk
+    default: op
+  ecocreature.reward.illusioner:
+    description: Enables rewards for illusioner
+    default: op
   ecocreature.reward.killstreak:
     description: Enables rewards for kill streaks via DeathTpPlus
     default: op
+  ecocreature.reward.llama:
+    description: Enables rewards for llama
+    default: op  
   ecocreature.reward.magmacube:
     description: Enables rewards for magmacubes
     default: op
@@ -219,6 +241,9 @@ permissions:
   ecocreature.reward.ozelot:
     description: Enables rewards for ozelot
     default: op
+  ecocreature.reward.parrot:
+    description: Enables rewards for parrot
+    default: op
   ecocreature.reward.pig:
     description: Enables rewards for pigs
     default: op
@@ -227,6 +252,9 @@ permissions:
     default: op
   ecocreature.reward.player:
     description: Enables rewards for players (a.k.a. PVP reward)
+    default: op
+  ecocreature.reward.polarbear:
+    description: Enables rewards for polarbear
     default: op
   ecocreature.reward.poweredcreeper:
     description: Enables rewards for powered creepers
@@ -239,6 +267,9 @@ permissions:
     default: op
   ecocreature.reward.sheep:
     description: Enables rewards for sheep
+    default: op
+  ecocreature.reward.shulker:
+    description: Enables rewards for shulker
     default: op
   ecocreature.reward.silverfish:
     description: Enables rewards for silverfish
@@ -261,11 +292,17 @@ permissions:
   ecocreature.reward.squid:
     description: Enables rewards for squid
     default: op
+  ecocreature.reward.vex:
+    description: Enables rewards for vex
+    default: op
   ecocreature.reward.villager:
     description: Enables rewards for villagers
     default: op
   ecocreature.reward.villagergolem:
     description: Enables rewards for villagergolems
+    default: op
+  ecocreature.reward.vindicator:
+    description: Enables rewards for vindicator
     default: op
   ecocreature.reward.witch:
     description: Enables rewards for witches

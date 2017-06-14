@@ -1,7 +1,7 @@
 /*
  * This file is part of ecoCreature.
  *
- * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2017, R. Ramos <http://github.com/mung3r/>
  * ecoCreature is licensed under the GNU Lesser General Public License.
  *
  * ecoCreature is free software: you can redistribute it and/or modify
@@ -104,10 +104,13 @@ public final class DropSourceFactory
 
         switch (CustomEntityType.fromName(parseTypeName(section))) {
             case ANGRY_WOLF:
+            case EVOKER:
             case KILLER_RABBIT:
             case PLAYER:
+            case POLAR_BEAR:
             case POWERED_CREEPER:
             case WITHER_SKELETON:
+            case VINDICATOR:
             case ZOMBIE_BABY:
             case ZOMBIE_VILLAGER:
                 sources.add(new EntityDropSource(section, config));
