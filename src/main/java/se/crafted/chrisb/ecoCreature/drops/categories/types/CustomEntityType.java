@@ -28,6 +28,7 @@ import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Evoker;
+import org.bukkit.entity.Illusioner;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.PolarBear;
@@ -43,6 +44,7 @@ public enum CustomEntityType
 {
     ANGRY_WOLF("AngryWolf", EntityType.WOLF),
     EVOKER("Evoker", EntityType.EVOKER),
+    ILLUSIONER("Illusioner", EntityType.ILLUSIONER),
     KILLER_RABBIT("KillerRabbit", EntityType.RABBIT),
     PLAYER("Player", EntityType.PLAYER),
     POLAR_BEAR("PolarBear", EntityType.POLAR_BEAR),    
@@ -116,6 +118,9 @@ public enum CustomEntityType
         }
         else if (entity instanceof Evoker) {
         	entityType = CustomEntityType.EVOKER;
+        }
+        else if (entity instanceof Illusioner) {
+        	entityType = CustomEntityType.ILLUSIONER;
         }
         else if (entity instanceof PolarBear) {
         	entityType = CustomEntityType.POLAR_BEAR;

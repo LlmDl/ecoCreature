@@ -55,7 +55,6 @@ public class EntityDeathEventListener implements Listener
 
         if (EventUtils.isEntityKilledEvent(event)) {
             events = plugin.getDropEventFactory().collectDropEvents(EntityKilledEvent.createEvent(event));
-            System.out.println("EntityDeathEventListener isEntityKilledEvent" + event.getEntity().getType().toString());
         }
         else if (EventUtils.isEntityFarmed(event) || EventUtils.isEntityFireFarmed(event)) {
             events = plugin.getDropEventFactory().collectDropEvents(EntityFarmedEvent.createEvent(event));

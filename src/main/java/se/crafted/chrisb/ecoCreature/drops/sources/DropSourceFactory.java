@@ -105,6 +105,7 @@ public final class DropSourceFactory
         switch (CustomEntityType.fromName(parseTypeName(section))) {
             case ANGRY_WOLF:
             case EVOKER:
+            case ILLUSIONER:
             case KILLER_RABBIT:
             case PLAYER:
             case POLAR_BEAR:
